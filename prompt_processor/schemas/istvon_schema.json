@@ -7,8 +7,8 @@
   "properties": {
     "instructions": {
       "type": "string",
-      "minLength": 5,
-      "maxLength": 2000,
+      "minLength": 5,  
+      "maxLength": 2000,  
       "description": "Clear, specific instructions for the AI task",
       "examples": [
         "Write a comprehensive blog post that explains the concept clearly with examples",
