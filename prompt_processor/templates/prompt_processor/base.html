@@ -5,31 +5,88 @@
     <meta charset="UTF-8">
     <title>{% block title %}Prompt to ISTVON Converter{% endblock %}</title>
     <link rel="stylesheet" href="https://cdn.simplecss.org/simple.css">
+    
+   
+    
+  <style>
+  :root {
+    --bg: #fff;              /* dark gray background */
+    --primary: #fff;
+    --accent: #1b50a0ff;
+    --text: #1676b7ff;       /* light blue text */
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: system-ui, sans-serif;
+  }
+
+  header {
+    background-color: var(--bg);
+    color: var(--text);
+    padding: 1rem;
+  }
+
+  a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  nav a {
+    margin: 0 1rem;
+    color: var(--text);
+  }
+
+  main {
+    background-color: var(--bg);
+    padding: 2rem;
+  }
+
+  footer {
+    background-color: var(--primary);
+    color: var(--text);
+    text-align: center;
+    padding: 1rem;
+    margin-top: 2rem;
+  }
+
+  h1, h2, h3 {
+    color: var(--accent);
+  }
+
+  /* Optional: update link hover style for visibility on dark bg */
+
+</style>
+
+
+
+ 
 </head>
 <body>
     <header>
-        <h1><a href="{% url 'index' %}">ISTVON Converter</a></h1>
+        <h1><a href="{% url 'index' %}" class="istovnconvertor" >ISTVON Converter</a></h1>
         <nav>
-            <a href="{% url 'index' %}">Home</a>
+            <a href="{% url 'index' %}" >Home</a>
             <a href="{% url 'history' %}">History</a>
         </nav>
     </header>
 
     <main>
-        {% if messages %}
-            <ul>
-                {% for message in messages %}
-                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
-                        {{ message }}
-                    </li>
-                {% endfor %}
-            </ul>
-        {% endif %}
+      {% if messages %}
+    <ul>
+        {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+                {{ message }}
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}
         {% block content %}{% endblock %}
     </main>
 
     <footer>
-        <p>&copy; 2025 ISTVON Converter</p>
+        <p>&copy; 2025 ISTVON </p>
     </footer>
 </body>
 </html>
