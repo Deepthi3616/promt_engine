@@ -1,0 +1,35 @@
+<!-- prompt_processor/templates/prompt_processor/base.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Prompt to ISTVON Converter{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdn.simplecss.org/simple.css">
+</head>
+<body>
+    <header>
+        <h1><a href="{% url 'index' %}">ISTVON Converter</a></h1>
+        <nav>
+            <a href="{% url 'index' %}">Home</a>
+            <a href="{% url 'history' %}">History</a>
+        </nav>
+    </header>
+
+    <main>
+        {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+                        {{ message }}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 2025 ISTVON Converter</p>
+    </footer>
+</body>
+</html>

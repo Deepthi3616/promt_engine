@@ -1,0 +1,24 @@
+<!-- prompt_processor/templates/prompt_processor/history.html -->
+{% extends 'prompt_processor/base.html' %}
+{% block title %}Conversion History{% endblock %}
+
+{% block content %}
+<h2>Conversion History</h2>
+
+{% if conversions %}
+    <ul>
+        {% for conversion in conversions %}
+            <li>
+                <a href="{% url 'review' conversion.id %}">
+                    {{ conversion.original_prompt|truncatechars:60 }}
+                </a>
+                {% if not conversion.success_flag %}
+                    <span style="color: red;">(Failed)</span>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No conversions yet.</p>
+{% endif %}
+{% endblock %}

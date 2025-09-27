@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'coreapp',
+    'prompt_processor',
 ]
 
 MIDDLEWARE = [
@@ -115,9 +115,51 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'static/'
+# STATIC_URL = 'static/'
+STATIC_URL = "static/"
+STATICFILES_DIRS = [ BASE_DIR / "static"] 
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+MEDIA_URL ="/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR ,"media")
+
+# #######################################################################################
+
+ISTVON_SETTINGS = {
+    'SCHEMA_PATH': 'prompt_processor/schemas/istvon_schema.json',
+    'MAX_CONVERSIONS_PER_USER': 100,  # Limit for free users
+    'DEFAULT_TIMEOUT': 30,  # Seconds for conversion process
+    'ENABLE_ANALYTICS': True,
+    'SUPPORTED_OUTPUT_FORMATS': [
+        'plain_text', 'markdown', 'html', 'pdf', 'docx', 'json'
+    ],
+    'SUPPORTED_TOOLS': [
+        'text_generation', 'web_search', 'image_creation', 
+        'data_analysis', 'code_generation'
+    ]
+}
+
+# Logging configuration
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': 'istvon.log',
+        },
+    },
+    'loggers': {
+        'prompt_processor': {
+            'handlers': ['file'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+    },
+}

@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class CoreappConfig(AppConfig):
+class prompt_processorConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'coreapp'
+    name = 'prompt_processor'

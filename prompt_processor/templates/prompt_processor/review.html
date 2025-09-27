@@ -1,0 +1,36 @@
+<!-- prompt_processor/templates/prompt_processor/review.html -->
+{% extends 'prompt_processor/base.html' %}
+{% block title %}Review Conversion{% endblock %}
+
+{% block content %}
+<h2>Review Conversion</h2>
+
+<p><strong>Original Prompt:</strong></p>
+<pre>{{ conversion.original_prompt }}</pre>
+
+<p><strong>ISTVON JSON:</strong></p>
+<pre>{{ istvon_pretty }}</pre>
+
+{% if suggestions %}
+    <h3>Suggestions</h3>
+    <ul>
+        {% for key, suggestion in suggestions.items %}
+            <li><strong>{{ key }}:</strong> {{ suggestion }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+<h3>Feedback</h3>
+<form method="post" action="{% url 'save_feedback' conversion.id %}">
+    {% csrf_token %}
+    <label for="rating">Rating (1 to 5):</label>
+    <input type="number" name="rating" min="1" max="5"><br>
+
+    <label for="feedback">Comments:</label><br>
+    <textarea name="feedback" rows="4" cols="50"></textarea><br>
+
+    <button type="submit">Submit Feedback</button>
+</form>
+
+<a href="{% url 'index' %}">Convert Another Prompt</a>
+{% endblock %}

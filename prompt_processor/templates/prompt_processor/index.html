@@ -1,0 +1,30 @@
+<!-- prompt_processor/templates/prompt_processor/index.html -->
+{% extends 'prompt_processor/base.html' %}
+{% block title %}Home - ISTVON Converter{% endblock %}
+
+{% block content %}
+<h2>Enter a Prompt</h2>
+<form method="post" action="{% url 'convert_prompt' %}">
+    {% csrf_token %}
+    <textarea name="prompt" rows="5" cols="80" placeholder="Enter your natural language prompt here..."></textarea><br>
+    <button type="submit">Convert to ISTVON</button>
+</form>
+
+{% if templates %}
+    <h3>Sample Templates</h3>
+    <ul>
+        {% for template in templates %}
+            <li>{{ template.name }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+{% if recent_conversions %}
+    <h3>Recent Conversions</h3>
+    <ul>
+        {% for conversion in recent_conversions %}
+            <li><a href="{% url 'review' conversion.id %}">{{ conversion.original_prompt|truncatechars:60 }}</a></li>
+        {% endfor %}
+    </ul>
+{% endif %}
+{% endblock %}

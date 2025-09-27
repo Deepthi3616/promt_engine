@@ -1,0 +1,213 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ISTVON Prompt Enhancement Schema",
+  "description": "Structured format for AI prompt enhancement using the ISTVON framework",
+  "type": "object",
+  "required": ["instructions", "source_data", "tools", "variables", "outcome", "notification"],
+  "properties": {
+    "instructions": {
+      "type": "string",
+      "minLength": 5,
+      "maxLength": 2000,
+      "description": "Clear, specific instructions for the AI task",
+      "examples": [
+        "Write a comprehensive blog post that explains the concept clearly with examples",
+        "Analyze the provided dataset and generate insights with visualizations",
+        "Create a professional email response addressing customer concerns"
+      ]
+    },
+    "source_data": {
+      "type": "array",
+      "description": "References to data sources, context, or knowledge bases",
+      "items": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": ["file", "database", "api", "url", "knowledge_base", "user_input", "context", "none"]
+          },
+          "source": {
+            "type": "string",
+            "description": "Path, URL, or identifier of the data source"
+          },
+          "description": {
+            "type": "string",
+            "description": "Brief description of the data source"
+          },
+          "required": {
+            "type": "boolean",
+            "default": false
+          }
+        },
+        "required": ["type", "source"]
+      },
+      "examples": [
+        [
+          {"type": "knowledge_base", "source": "industry_research_2024", "description": "Latest industry trends"},
+          {"type": "file", "source": "company_guidelines.pdf", "description": "Internal style guide", "required": true}
+        ]
+      ]
+    },
+    "tools": {
+      "type": "array",
+      "description": "Specific tools or capabilities required",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "enum": [
+              "text_generation", 
+              "web_search", 
+              "image_creation", 
+              "data_analysis", 
+              "code_generation",
+              "translation",
+              "summarization",
+              "sentiment_analysis",
+              "file_processing"
+            ]
+          },
+          "version": {
+            "type": "string",
+            "description": "Specific version if required"
+          },
+          "parameters": {
+            "type": "object",
+            "description": "Tool-specific configuration"
+          }
+        },
+        "required": ["name"]
+      },
+      "examples": [
+        [
+          {"name": "text_generation", "parameters": {"model": "gpt-4", "temperature": 0.7}},
+          {"name": "web_search", "parameters": {"max_results": 10}}
+        ]
+      ]
+    },
+    "variables": {
+      "type": "object",
+      "description": "Dynamic parameters and their values",
+      "properties": {
+        "topic": {
+          "type": "string",
+          "description": "Main subject or theme"
+        },
+        "tone": {
+          "type": "string",
+          "enum": ["professional", "casual", "formal", "friendly", "technical", "conversational"],
+          "default": "professional"
+        },
+        "length": {
+          "type": "string",
+          "description": "Expected length (e.g., '1500-2000 words', '3 pages')"
+        },
+        "target_audience": {
+          "type": "string",
+          "description": "Intended audience for the content"
+        },
+        "deadline": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the task should be completed"
+        },
+        "priority": {
+          "type": "string",
+          "enum": ["low", "medium", "high", "urgent"],
+          "default": "medium"
+        },
+        "language": {
+          "type": "string",
+          "default": "en",
+          "description": "Output language (ISO code)"
+        }
+      },
+      "examples": [
+        {
+          "topic": "ISTVON Framework",
+          "tone": "professional",
+          "length": "1500-2000 words",
+          "target_audience": "developers",
+          "priority": "high"
+        }
+      ]
+    },
+    "outcome": {
+      "type": "object",
+      "description": "Expected output format and delivery method",
+      "required": ["format", "delivery"],
+      "properties": {
+        "format": {
+          "type": "string",
+          "enum": [
+            "plain_text", 
+            "markdown", 
+            "html", 
+            "pdf", 
+            "docx", 
+            "json", 
+            "csv", 
+            "excel"
+          ]
+        },
+        "delivery": {
+          "type": "string",
+          "enum": ["display", "save_to_file", "email", "api_response", "database_insert"]
+        },
+        "filename": {
+          "type": "string",
+          "description": "Name for saved files"
+        },
+        "destination": {
+          "type": "string",
+          "description": "Where to save or send the output"
+        },
+        "quality_requirements": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Specific quality criteria"
+        }
+      },
+      "examples": [
+        {
+          "format": "markdown",
+          "delivery": "save_to_file",
+          "filename": "istvon_blog_post.md",
+          "quality_requirements": ["include_examples", "proper_citations"]
+        }
+      ]
+    },
+    "notification": {
+      "type": "object",
+      "description": "How and when to notify about completion",
+      "properties": {
+        "method": {
+          "type": "string",
+          "enum": ["email", "sms", "webhook", "in_app", "slack", "none"]
+        },
+        "recipient": {
+          "type": "string",
+          "description": "Email address, phone number, or webhook URL"
+        },
+        "trigger": {
+          "type": "string",
+          "enum": ["on_start", "on_progress", "on_completion", "on_error"],
+          "default": "on_completion"
+        },
+        "message_template": {
+          "type": "string",
+          "description": "Custom notification message template"
+        }
+      },
+      "examples": [
+        {
+          "method": "email",
+          "recipient": "user@example.com",
+          "trigger": "on_completion",
+          "message_template": "Task completed: {task_name}"
+        }
+      ]
+    }
+  }
+}
